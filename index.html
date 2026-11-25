@@ -1,10 +1,10 @@
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>M.W. // FLEET COMMAND TERMINAL</title>
-  <!-- Google Fonts: Orbitron, Rajdhani y Share Tech Mono -->
+  <title>M.W. // FLEET COMMAND & BATTLESHIP 100x100</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Capas de efecto visual de fondo (Cuadrícula y Scanlines) -->
   <div class="bg-grid" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
 
@@ -22,36 +21,36 @@
     <!-- ==================== ENCABEZADO HUD ==================== -->
     <header class="hud-header">
       <div class="header-left">
-        <span class="tag-code">// NAVAL_SYS_V4.9</span>
+        <span class="tag-code">// NAVAL_SYS_V5.0 // GRID_100x100</span>
         <h1>M.W. <span>//</span> FLEET COMMAND TERMINAL</h1>
-        <p class="subtitle">SISTEMA TÁCTICO DE CONFIGURACIÓN DE FLOTA Y ARMAMENTO</p>
+        <p class="subtitle">CONFIGURACIÓN DE FLOTA Y SIMULADOR BATTLESHIP (7 UNIDADES)</p>
       </div>
 
       <div class="header-right">
         <div class="status-badge">
           <span class="pulse-dot"></span>
-          <span>SYSTEM: ONLINE</span>
+          <span id="systemStatusText">SYSTEM: ONLINE</span>
         </div>
         <div class="serial-box">
-          <span class="label">SERIAL ID:</span>
-          <span class="value">MW-CYB-8842-X</span>
+          <span class="label">FLOTA ENEMIGA RESTANTE:</span>
+          <span class="value" id="fleetCounter">7 / 7</span>
         </div>
       </div>
     </header>
 
     <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
     <main class="hud-layout">
-      <!-- PANEL IZQUIERDO: FORMULARIO DE REGISTRO -->
+      <!-- PANEL IZQUIERDO: FORMULARIO DE REGISTRO Y DESPLIEGUE -->
       <section class="cyber-panel form-panel">
         <div class="panel-header">
-          <h2>[01] REGISTRO DE UNIDAD Y LOADOUT</h2>
+          <h2>[01] CONFIGURACIÓN DE ARMAMENTO Y BUQUE</h2>
           <span class="deco-bars">///</span>
         </div>
 
-        <form id="warshipForm" action="#" method="post">
+        <form id="warshipForm">
           <!-- SECCIÓN 1: DATOS DEL BUQUE -->
           <fieldset class="form-section">
-            <legend>01 // HULL SPECS (DATOS DEL BUQUE)</legend>
+            <legend>01 // HULL SPECS (TU BUQUE DE MANDO)</legend>
 
             <div class="form-grid">
               <div class="input-group full-width">
@@ -60,6 +59,7 @@
                   type="text"
                   id="shipName"
                   name="shipName"
+                  value="USS Zumwalt (DDG-1000)"
                   placeholder="Ej. USS Zumwalt (DDG-1000), RF Lider, JS Yamato"
                   required
                 />
@@ -91,10 +91,10 @@
                   type="number"
                   id="shipHp"
                   name="shipHp"
+                  value="435000"
                   min="50000"
                   max="1000000"
                   step="500"
-                  placeholder="Ej. 435000"
                   required
                 />
               </div>
@@ -105,39 +105,37 @@
                   type="number"
                   id="shipSpeed"
                   name="shipSpeed"
+                  value="28.5"
                   min="10"
                   max="60"
                   step="0.1"
-                  placeholder="Ej. 28.5"
                   required
                 />
               </div>
             </div>
           </fieldset>
 
-          <!-- SECCIÓN 2: CONFIGURACIÓN DE ARMAMENTO -->
+          <!-- SECCIÓN 2: CONFIGURACIÓN DE ARMAMENTO (DEFINE EL DAÑO EN EL JUEGO) -->
           <fieldset class="form-section">
-            <legend>02 // WEAPON LOADOUT (ARMAMENTO)</legend>
+            <legend>02 // WEAPON LOADOUT (DEFINE TU POTENCIA DE FUEGO)</legend>
 
             <div class="form-grid">
               <div class="input-group">
-                <label for="missiles">MISILES PRINCIPALES</label>
+                <label for="missiles">MISILES PRINCIPALES (MODO SALVA 3x3)</label>
                 <select id="missiles" name="missiles">
-                  <option value="X-51 Waverider">X-51 Waverider (Hipersónico)</option>
-                  <option value="DF-17">DF-17 (Balístico)</option>
-                  <option value="RIM-174 (SM-6)">RIM-174 (SM-6) (Multirrol)</option>
-                  <option value="3M22 Zircon">3M22 Zircon (Hipersónico)</option>
-                  <option value=" Scalp Naval">SCALP Naval</option>
+                  <option value="320">X-51 Waverider (320 DMG)</option>
+                  <option value="380">3M22 Zircon (380 DMG)</option>
+                  <option value="270">DF-17 Balístico (270 DMG)</option>
+                  <option value="230">RIM-174 SM-6 (230 DMG)</option>
                 </select>
               </div>
 
               <div class="input-group">
-                <label for="mainCannon">CAÑÓN PRINCIPAL</label>
+                <label for="mainCannon">CAÑÓN PRINCIPAL (DISPARO PRECISO)</label>
                 <select id="mainCannon" name="mainCannon">
-                  <option value="Monarc (155mm)">Monarc (155mm)</option>
-                  <option value="TMF 155">TMF 155</option>
-                  <option value="Railgun HPJ-45">Railgun HPJ-45</option>
-                  <option value="AK-130 Buckshot">AK-130 Buckshot</option>
+                  <option value="250">Railgun HPJ-45 (250 DMG)</option>
+                  <option value="200" selected>Monarc 155mm (200 DMG)</option>
+                  <option value="180">TMF 155 (180 DMG)</option>
                 </select>
               </div>
 
@@ -148,7 +146,6 @@
                   <option value="Type 89">Torpedo Type 89</option>
                   <option value="A-22">Lanzagranadas A-22</option>
                   <option value="HJJ-30">Lanzagranadas HJJ-30</option>
-                  <option value="RUR-5B ASROC">RUR-5B ASROC</option>
                 </select>
               </div>
 
@@ -158,6 +155,7 @@
                   type="text"
                   id="aircraft"
                   name="aircraft"
+                  value="RAH-66 Comanche"
                   placeholder="Ej. RAH-66 Comanche, FL-71"
                 />
               </div>
@@ -171,19 +169,16 @@
                     <span class="checkmark"></span>
                     <span class="cb-text">Pantsir-ME</span>
                   </label>
-
                   <label class="cyber-checkbox">
                     <input type="checkbox" name="aa[]" value="Sea RAM" />
                     <span class="checkmark"></span>
                     <span class="cb-text">Sea RAM</span>
                   </label>
-
                   <label class="cyber-checkbox">
                     <input type="checkbox" name="aa[]" value="Garpun" checked />
                     <span class="checkmark"></span>
                     <span class="cb-text">Garpun (30mm)</span>
                   </label>
-
                   <label class="cyber-checkbox">
                     <input type="checkbox" name="aa[]" value="THEL Laser" />
                     <span class="checkmark"></span>
@@ -194,108 +189,76 @@
             </div>
           </fieldset>
 
-          <!-- SECCIÓN 3: NOTAS TÁCTICAS Y ACCIONES -->
+          <!-- SECCIÓN 3: NOTAS TÁCTICAS -->
           <fieldset class="form-section">
-            <legend>03 // TACTICAL DIRECTIVES (NOTAS DE COMBATE)</legend>
+            <legend>03 // TACTICAL DIRECTIVES</legend>
             <div class="input-group full-width">
               <label for="tacticalNotes">PROTOCOLO DE ENFRENTAMIENTO</label>
               <textarea
                 id="tacticalNotes"
                 name="tacticalNotes"
-                rows="3"
-                placeholder="Describe la estrategia: flanqueo a larga distancia, saturación de misiles, escolta antisubmarina..."
-              ></textarea>
+                rows="2"
+                placeholder="Notas tácticas de combate..."
+              >Saturación de misiles por cuadrantes hasta destruir los 7 objetivos.</textarea>
             </div>
           </fieldset>
 
           <!-- BOTONES DE ACCIÓN -->
           <div class="form-actions">
             <button type="submit" class="btn-cyber btn-primary">
-              <span>⚡ DESPLEGAR UNIDAD</span>
+              <span>⚡ DESPLEGAR UNIDAD Y COMBATIR</span>
             </button>
-            <button type="reset" class="btn-cyber btn-danger">
-              <span>✖ PURGAR DATOS</span>
+            <button type="reset" id="resetGameBtn" class="btn-cyber btn-danger">
+              <span>✖ REINICIAR MAPA 100x100</span>
             </button>
           </div>
         </form>
       </section>
 
-      <!-- PANEL DERECHO: VISTA PREVIA HUD / RADAR -->
+      <!-- PANEL DERECHO: RADAR INTERACTIVO 100x100 Y TELEMETRÍA -->
       <aside class="cyber-panel hud-preview">
         <div class="panel-header">
-          <h2>[02] TELEMETRÍA & RADAR</h2>
-          <span class="status-tag">READY</span>
+          <h2>[02] RADAR DE COMBATE 100x100</h2>
+          <span class="status-tag" id="combatModeBadge">SALVA 3x3</span>
         </div>
 
-        <!-- Simulación de Radar Circular -->
-        <div class="radar-container">
-          <div class="radar-screen">
-            <div class="radar-circle c1"></div>
-            <div class="radar-circle c2"></div>
-            <div class="radar-circle c3"></div>
-            <div class="radar-crosshair-x"></div>
-            <div class="radar-crosshair-y"></div>
-            <div class="radar-sweep"></div>
-            <div class="radar-blip blip-1"></div>
-            <div class="radar-blip blip-2"></div>
-          </div>
+        <!-- Selector rápido de modo de disparo y coordenadas -->
+        <div class="fire-controls">
+          <button type="button" id="btnModeCannon" class="mode-btn">🎯 CAÑÓN (1x1)</button>
+          <button type="button" id="btnModeMissile" class="mode-btn active">🚀 MISIL (3x3)</button>
+          <button type="button" id="btnSonarScan" class="mode-btn sonar">📡 SONAR (5x5)</button>
+        </div>
+
+        <!-- CANVAS INTERACTIVO DE 100x100 CELDAS -->
+        <div class="canvas-wrapper">
+          <canvas id="battleGridCanvas" width="400" height="400"></canvas>
           <div class="radar-coords">
-            <span>LAT: 13°28'54"N</span>
-            <span>LON: 88°10'32"W</span>
+            <span id="hoverCoords">CURSOR: X:-- Y:--</span>
+            <span id="shotsStats">DISPAROS: 0 | IMPACTOS: 0</span>
           </div>
         </div>
 
-        <!-- Resumen de Estado del Buque -->
+        <!-- BITÁCORA DE COMBATE EN TIEMPO REAL -->
+        <div class="combat-log" id="combatLog">
+          <div class="log-entry info">&gt; Terminal lista. Haz clic en el radar 100x100 para disparar o pulsa "DESPLEGAR UNIDAD".</div>
+        </div>
+
+        <!-- ESTADO DE LOS 7 BUQUES ENEMIGOS -->
         <div class="telemetry-card">
           <div class="telemetry-header">
-            <span class="ship-badge">CLASE: DDG // TIER III</span>
-            <span class="alert-text">COMBAT READY</span>
+            <span class="ship-badge" id="playerShipLabel">MANDO: USS ZUMWALT (DDG-1000)</span>
+            <span class="alert-text" id="fleetAlert">7 OBJETIVOS ACTIVOS</span>
           </div>
 
-          <h3 class="preview-title">USS ZUMWALT [DDG-1000]</h3>
-
-          <div class="stat-bars">
-            <div class="stat-item">
-              <div class="stat-info">
-                <span>INTEGRIDAD DE CASCO (HP)</span>
-                <span>86%</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill cyan" style="width: 86%"></div>
-              </div>
-            </div>
-
-            <div class="stat-item">
-              <div class="stat-info">
-                <span>POTENCIA DE FUEGO (DPS)</span>
-                <span>92%</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill pink" style="width: 92%"></div>
-              </div>
-            </div>
-
-            <div class="stat-item">
-              <div class="stat-info">
-                <span>COBERTURA DEFENSA AA</span>
-                <span>78%</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill yellow" style="width: 78%"></div>
-              </div>
-            </div>
-          </div>
-
-          <ul class="specs-list">
-            <li><span>MISILES:</span> <strong>X-51 WAVERIDER [x2]</strong></li>
-            <li><span>CAÑÓN:</span> <strong>MONARC 155MM [x1]</strong></li>
-            <li><span>TORPEDOS:</span> <strong>SPEARFISH [x2]</strong></li>
-            <li><span>DEFENSA AA:</span> <strong>PANTSIR-ME + GARPUN</strong></li>
-            <li><span>AÉREO:</span> <strong>RAH-66 COMANCHE</strong></li>
+          <ul class="specs-list" id="enemyFleetList">
+            <!-- Se llena dinámicamente desde TypeScript/JavaScript -->
           </ul>
         </div>
       </aside>
     </main>
   </div>
+
+  <!-- Script compilado desde battleship.ts -->
+  <script src="battleship.js"></script>
 </body>
 </html>
